@@ -106,9 +106,9 @@ process_t *current_process=NULL;
 /*Queue of processes*/
 process_t *queue=NULL;
 
-/*Put process at end of queue.
-Assumes that process has NULL next pointer.*/
+/*Put process at end of queue.*/
 void pushProcess(process_t * process){
+  process->next = NULL;
 	process_t *iterator;
   if(queue==NULL){
     queue = process;
@@ -162,23 +162,21 @@ int process_create (void (*f)(void), int n){
 */
 unsigned int process_select (unsigned int cursp){
   if(queue==NULL){
+    current_process = NULL;
     return 0;
   }
-  if(current_process==NULL){
+  if(current_process==NULL || cursp == 0){
     current_process = popProcess();
-  }
-  if(cursp == 0){
-    /*no currently running process. This means current process may have terminated*/
-    process_t *toFree=current_process;
-    free (toFree);
-    if(queue == NULL) return 0;
-    else current_process = popProcess();
-  }else if(current_process!=NULL){
+  }else{
     current_process->sp = cursp;
     pushProcess(current_process);
     current_process = popProcess();
   }
-  if (current_process == NULL) return 0;
+  if (current_process == NULL){
+    /*THIS SHOULD NEVER HAPPEN*/
+    current_process = NULL;
+    return 0;
+  } 
   return current_process->sp;
 }
 
