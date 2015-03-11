@@ -11,7 +11,7 @@
  */
 #include "3140_concur.h"
 #include <stdlib.h>	
-#define PROCEESS_RUNTIME 2000
+#define PROCEESS_RUNTIME 50000
 /*
   State layout:
 
@@ -82,7 +82,7 @@ process_init (void (*f)(void), int n)
 /* Starts up the concurrent execution */
 void process_start (void){
   TACTL &= TACLR;
-  TACCTL0=CCIE;
+  TACCTL0 = CCIE;
   TACCTL0 |= CM0;     /* set to compare mode */
   TACTL |= TASSEL_2;  /* set clock to SMCLK */
   TACTL |= MC_1;    /* set mode to up mode*/
@@ -90,18 +90,51 @@ void process_start (void){
   TACCR0 = PROCEESS_RUNTIME;
   __disable_interrupt();
   process_begin();
-  /*should I enable interrupts again*/
+  __enable_interrupt();
 }
+
+/*Bookkeping struct for keeping track of processes*/
+struct process_state {
+  /* Stack pointer for this process */ 
+  unsigned int sp;
+  struct process_state *next;
+};
 
 /* the currently running process */
 process_t *current_process=NULL; 
 
+/*Queue of processes*/
+process_t *queue=NULL;
+
+/*Put process at end of queue.
+Assumes that process has NULL next pointer.*/
+void pushProcess(process_t * process){
+	process_t *iterator;
+  if(queue==NULL){
+    queue = process;
+    return;
+  }
+  iterator = queue;
+  while(iterator->next!=NULL){
+    iterator = iterator->next;
+  }
+  iterator->next = process;
+}
+
+/*Take off the top process and set his next to Null.*/
+process_t* popProcess(){
+  process_t *top = queue;
+  queue  =queue->next;
+  top->next = NULL;
+  return top;
+}
 
 int process_create (void (*f)(void), int n){
+	process_t * new_process;
   /*Disable interrupts before calling process_init*/
   __disable_interrupt();
   /* Allocate space for new process' bookkeping struct */
-  process_t * new_process = (process_t *) malloc(sizeof process_t);
+  new_process =(process_t *) malloc(sizeof (process_t));
   /*If malloc failed, we must return -1*/
   if(new_process == NULL) {
     __enable_interrupt();
@@ -111,7 +144,7 @@ int process_create (void (*f)(void), int n){
   new_process->sp = process_init(f, n);
   /*If this failed, free struct memory and return -1*/
   if(new_process->sp == 0){
-    free new_process;
+    free (new_process);
     __enable_interrupt();
     return -1;
   }
@@ -128,45 +161,26 @@ int process_create (void (*f)(void), int n){
    "cursp" = the stack pointer for the currently running process
 */
 unsigned int process_select (unsigned int cursp){
-  if(current_process==NULL){
-    /*this really shouldn't happen*/
+  if(queue==NULL){
     return 0;
   }
-  if(cursp == 0 && current_process!= NULL){
+  if(current_process==NULL){
+    current_process = popProcess();
+  }
+  if(cursp == 0){
     /*no currently running process. This means current process may have terminated*/
-    process_t *toFree=popProcess();
-    free toFree;
+    process_t *toFree=current_process;
+    free (toFree);
+    if(queue == NULL) return 0;
+    else current_process = popProcess();
   }else if(current_process!=NULL){
     current_process->sp = cursp;
-    pushProcess(popProcess());
+    pushProcess(current_process);
+    current_process = popProcess();
   }
-  if(current_process== NULL) return 0;
+  if (current_process == NULL) return 0;
   return current_process->sp;
 }
 
 
-/*Bookkeping struct for keeping track of processes*/
-typedef struct process_state {
-  /* Stack pointer for this process */ 
-  unsigned int sp;
-  struct process_state *next;
-} process_t;
 
-void pushProcess(process_t * process){
-  if(current_process==NULL){
-    current_process = process;
-    return;
-  }
-  process_t *iterator = current_process;
-  while(iterator->next!=NULL){
-    iterator = iterator->next;
-  }
-  iterator->next = process;
-}
-
-process_t* popProcess(){
-  process_t *top = current_process;
-  current_process  = current_process->next;
-  top->next = NULL;
-  return top;
-}
