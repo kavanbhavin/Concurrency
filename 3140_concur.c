@@ -11,7 +11,7 @@
  */
 #include "3140_concur.h"
 #include <stdlib.h>	
-#define PROCEESS_RUNTIME 50000
+#define PROCEESS_RUNTIME 10000
 /*
   State layout:
 
@@ -90,7 +90,6 @@ void process_start (void){
   TACCR0 = PROCEESS_RUNTIME;
   __disable_interrupt();
   process_begin();
-  __enable_interrupt();
 }
 
 /*Bookkeping struct for keeping track of processes*/
@@ -108,8 +107,8 @@ process_t *queue=NULL;
 
 /*Put process at end of queue.*/
 void pushProcess(process_t * process){
-  process->next = NULL;
 	process_t *iterator;
+  process->next = NULL;
   if(queue==NULL){
     queue = process;
     return;
@@ -161,22 +160,14 @@ int process_create (void (*f)(void), int n){
    "cursp" = the stack pointer for the currently running process
 */
 unsigned int process_select (unsigned int cursp){
-  if(queue==NULL){
-    current_process = NULL;
-    return 0;
-  }
   if(current_process==NULL || cursp == 0){
+  	if(queue == NULL) return 0;
     current_process = popProcess();
   }else{
     current_process->sp = cursp;
     pushProcess(current_process);
     current_process = popProcess();
   }
-  if (current_process == NULL){
-    /*THIS SHOULD NEVER HAPPEN*/
-    current_process = NULL;
-    return 0;
-  } 
   return current_process->sp;
 }
 

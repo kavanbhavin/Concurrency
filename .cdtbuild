@@ -41,6 +41,12 @@
 </tool>
 <macros expandEnvironmentMacros="true"/>
 </toolChain>
+<resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Lab3/lab3_t0.c" name="lab3_t0.c" rcbsApplicability="disable" resourcePath="/Lab3/lab3_t0.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Lab3/lab3_t0.c">
+<tool id="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Lab3/lab3_t0.c" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501"/>
+</resourceConfiguration>
+<resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Lab3/singleprocess.c" name="singleprocess.c" rcbsApplicability="disable" resourcePath="/Lab3/singleprocess.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Lab3/singleprocess.c">
+<tool id="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Lab3/singleprocess.c" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501"/>
+</resourceConfiguration>
 </configuration>
 <configuration artifactExtension="out" artifactName="Lab3" description="" id="com.ti.ccstudio.buildDefinitions.MSP430.Release.214934082" name="Release" parent="com.ti.ccstudio.buildDefinitions.MSP430.Release">
 <toolChain id="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.ReleaseToolchain.498297736" name="TI Code Generation Tools" superClass="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.ReleaseToolchain" targetTool="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.linkerRelease.1123839119">
