@@ -11,7 +11,7 @@
  */
 #include "3140_concur.h"
 #include <stdlib.h>	
-#define PROCEESS_RUNTIME 10000
+#define PROCEESS_RUNTIME 400
 /*
   State layout:
 
@@ -81,6 +81,7 @@ process_init (void (*f)(void), int n)
 
 /* Starts up the concurrent execution */
 void process_start (void){
+  __disable_interrupt();
   TACTL &= TACLR;
   TACCTL0 = CCIE;
   TACCTL0 |= CM0;     /* set to compare mode */
@@ -88,7 +89,6 @@ void process_start (void){
   TACTL |= MC_1;    /* set mode to up mode*/
   TACTL |= ID_0;  
   TACCR0 = PROCEESS_RUNTIME;
-  __disable_interrupt();
   process_begin();
 }
 
