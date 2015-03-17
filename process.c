@@ -4,6 +4,8 @@
 
 /*The duration of time we let a single process run for*/
 #define PROCEESS_RUNTIME 10000
+#define BLOCKED 1
+#define NOT_BLOCKED 0
 
 /*
   Bookkeping struct for keeping track of processes.
@@ -15,6 +17,8 @@ struct process_state {
   unsigned int sp;
   /*Pointer to next process. NULL if no next process*/
   struct process_state *next;
+  /*Repesents whether a process has been blocked*/
+  unsigned int blocked;
 };
 
 /* 
@@ -102,6 +106,8 @@ int process_create (void (*f)(void), int n){
     __enable_interrupt();
     return -1;
   }
+  /*Set block variable to 0*/
+  new_process->blocked = NOT_BLOCKED;
   /*Add this process to process queue*/
   pushProcess(new_process);
   /*Enable interrupts again*/
