@@ -51,7 +51,7 @@ process_t *queue=NULL;
   Puts process at end of the queue.
   Pre-condition: process is not NULL
 */
-void pushProcess(process_t * process){
+void enqueueProcess(process_t * process){
 	process_t *iterator; /*Used to iterate over queue*/
   process->next = NULL; 
   if(queue==NULL){
@@ -74,7 +74,7 @@ void pushProcess(process_t * process){
   and set it's next element to NULL.
   Pre-condition: queue is not empty i.e. queue is not NULL
 */
-process_t* popProcess(){
+process_t* dequeueProcess(){
   process_t *top = queue;
   queue = queue->next;
   top->next = NULL;
@@ -109,7 +109,7 @@ int process_create (void (*f)(void), int n){
   /*Set block variable to 0*/
   new_process->blocked = NOT_BLOCKED;
   /*Add this process to process queue*/
-  pushProcess(new_process);
+  enqueueProcess(new_process);
   /*Enable interrupts again*/
   __enable_interrupt();
   return 0;
@@ -131,18 +131,19 @@ unsigned int process_select (unsigned int cursp){
     /*If the queue is empty, there is nothing we can select so return 0*/
   	if(queue == NULL) return 0;
     /*Set current process to first element in queue*/
-    current_process = popProcess(); 
+    current_process = dequeueProcess(); 
   }else{
     /*Save stack pointer for future executions of process*/
     current_process->sp = cursp;
     /*Push process to back of queue*/
-    pushProcess(current_process);
+    if(current_process->blocked != BLOCKED) enqueueProcess(current_process);
     /*
       We do not have to check if queue is NULL before calling
-      popProcess because we have just added an element to the queue.
+      dequeueProcess because we have just added an element to the queue.
       Set current process to first element in queue.
     */
-    current_process = popProcess();
+      //TODO do we need to check?
+    current_process = dequeueProcess();
   }
   /*Return stack pointer to current process to be exectued*/
   return current_process->sp;

@@ -40,6 +40,8 @@ unsigned int process_select (unsigned int cursp);
 extern process_t *current_process; 
 /* the currently running process */
 
+extern process_t *queue;
+/* A queue of currently running processes*/
 
 void process_start (void);
 /* Starts up the concurrent execution */
