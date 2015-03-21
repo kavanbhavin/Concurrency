@@ -30,6 +30,7 @@ void l_unlock(lock_t *l){
 	current = dequeueProcess(&(l->queue));
 	while(current!=NULL){
 		process_t *temp = current;
+		temp->blocked = 0;
 		current = current->next;
 		enqueueProcess(temp, &queue);
 	}
