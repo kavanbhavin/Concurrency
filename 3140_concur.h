@@ -17,12 +17,26 @@
 #ifndef NULL
 #define NULL 0
 #endif
+/* Constants to represent if a process has been blocked or not*/
+#define BLOCKED 1
+#define NOT_BLOCKED 0
 
-typedef struct process_state process_t;
-   /* opaque definition of process type; you must provide this
-      implementation.
-   */
+/*
+  Bookkeping struct for keeping track of processes.
+  Essentially our implementation of a one element of a
+  Process Control Block.
+*/
+typedef struct process_state {
+  /* Stack pointer for this process */ 
+  unsigned int sp;
+  /*Pointer to next process. NULL if no next process*/
+  struct process_state *next;
+  /*Repesents whether a process has been blocked*/
+  int blocked;
+} process_t;
 
+void enqueueProcess(process_t *process, process_t **bqueue);
+process_t* dequeueProcess(process_t **queue);
 
 /*------------------------------------------------------------------------
 
@@ -89,5 +103,17 @@ unsigned int process_init (void (*f)(void), int n);
   This must be called with interrupts disabled.
 */
 void process_begin (void);
+
+/* ====== Locks ====== */
+ /*Data structure for storing bookeeping information
+about a lock.*/
+ typedef struct lock_impl {
+  int locked;
+  process_t* queue;
+} lock_t;
+
+void l_lock(lock_t* l);
+void l_init(lock_t* l);
+void l_unlock(lock_t* l);
 
 #endif /* __3140_CONCUR_H__ */
