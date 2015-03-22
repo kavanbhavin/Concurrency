@@ -27,12 +27,9 @@ void l_unlock(lock_t *l){
 	process_t *current; 
 	__disable_interrupt();
 	l->locked = UNLOCKED;
+	if(l->queue == NULL) return;
 	current = dequeueProcess(&(l->queue));
-	while(current!=NULL){
-		process_t *temp = current;
-		temp->blocked = 0;
-		current = current->next;
-		enqueueProcess(temp, &queue);
-	}
+	current->blocked = 0;
+	enqueueProcess(current, &queue);
 	__enable_interrupt();
 }
