@@ -116,4 +116,19 @@ void l_lock(lock_t* l);
 void l_init(lock_t* l);
 void l_unlock(lock_t* l);
 
+/* ====== Condition Variables ====== */
+
+typedef struct cond_var_impl {
+	lock_t *lock;
+	process_t *waiting_queue;
+} cond_t;
+
+void c_init (lock_t *l, cond_t *c);
+
+void c_wait (lock_t *l, cond_t *c);
+
+void c_signal (lock_t *l, cond_t *c);
+
+int c_waiting (lock_t *l, cond_t *c);
+
 #endif /* __3140_CONCUR_H__ */
