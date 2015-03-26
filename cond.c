@@ -9,12 +9,14 @@ void c_init (lock_t *l, cond_t *c){
 	return;
 }
 
+/*Do we need to mess with interrupts?*/
 void c_wait (lock_t *l, cond_t *c){
 	__disable_interrupt();
 	enqueueProcess(current_process, &(c->waiting_queue));
 	current_process->blocked = BLOCKED;
 	l_unlock(l);
 	process_blocked();
+	__enable_interrupt();
 }
 
 void c_signal (lock_t *l, cond_t *c){

@@ -35,8 +35,8 @@ typedef struct process_state {
   int blocked;
 } process_t;
 
-void enqueueProcess(process_t *process, process_t **bqueue);
-process_t* dequeueProcess(process_t **queue);
+void enqueueProcess(process_t *process, process_t **q);
+process_t* dequeueProcess(process_t **q);
 
 /*------------------------------------------------------------------------
 
@@ -54,7 +54,7 @@ unsigned int process_select (unsigned int cursp);
 extern process_t *current_process; 
 /* the currently running process */
 
-extern process_t *queue;
+extern process_t *ready_queue;
 /* A queue of currently running processes*/
 
 void process_start (void);

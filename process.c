@@ -3,7 +3,7 @@
 /*Kavan Bhavin kab395@cornell.edu & Jun Wei Lam jl2576@cornell.edu*/
 
 /*The duration of time we let a single process run for*/
-#define PROCEESS_RUNTIME 30000
+#define PROCEESS_RUNTIME 300
 
 /* 
   Starts up the concurrent execution.
@@ -11,7 +11,7 @@
 */
 void process_start (void){
 /*Interrupts are disabled to satisfy pre-condition of process_begin()*/
-  TACTL &= TACLR;     /*Clear timer*/
+  TACTL |= TACLR;     /*Clear timer*/
   TACCTL0 = CCIE;     /*Allow timer A to trigger interrupts*/
   TACCTL0 |= CM0;     /* set to compare mode */
   TACTL |= TASSEL_2;  /* set clock to SMCLK */
@@ -29,7 +29,7 @@ process_t *current_process=NULL;
   Pointer to head of queue of processes.
   Implementation of Process Control Block.
 */
-process_t *queue=NULL;
+process_t *ready_queue=NULL;
 
 /* 
   Creates a new process. 
@@ -56,10 +56,10 @@ int process_create (void (*f)(void), int n){
     __enable_interrupt();
     return -1;
   }
-  /*Set block variable to 0*/
+  /*Initialize block variable to 0*/
   new_process->blocked = NOT_BLOCKED;
-  /*Add this process to process queue*/
-  enqueueProcess(new_process, &queue);
+  /*Add this process to ready process queue*/
+  enqueueProcess(new_process, &ready_queue);
   /*Enable interrupts again*/
   __enable_interrupt();
   return 0;
@@ -79,21 +79,23 @@ unsigned int process_select (unsigned int cursp){
   */
   if(current_process == NULL || cursp == 0){
     /*If the queue is empty, there is nothing we can select so return 0*/
-  	if(queue == NULL) return 0;
+  	if(ready_queue == NULL) return 0;
     /*Set current process to first element in queue*/
-    current_process = dequeueProcess(&queue); 
+    current_process = dequeueProcess(&ready_queue); 
   }else{
     /*Save stack pointer for future executions of process*/
     current_process->sp = cursp;
-    /*Push process to back of queue*/
-    if(current_process->blocked != BLOCKED) enqueueProcess(current_process, &queue);
+    /*If process has been blocked, we should not add it to our ready queue
+    * because it has already been added to a waiting queue*/
+    if(current_process->blocked == NOT_BLOCKED) enqueueProcess(current_process, &ready_queue);
     /*
       We do not have to check if queue is NULL before calling
-      dequeueProcess because we have just added an element to the queue.
+      dequeueProcess because if current_process wasn't blocked we would have added it
+      to the queue. If it was, there must be some other ready process (otherwise it 
+      wouldn't block).
       Set current process to first element in queue.
     */
-      //TODO do we need to check?
-    current_process = dequeueProcess(&queue);
+    current_process = dequeueProcess(&ready_queue);
   }
   /*Return stack pointer to current process to be exectued*/
   return current_process->sp;

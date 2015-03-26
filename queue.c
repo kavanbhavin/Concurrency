@@ -10,16 +10,16 @@
   			process_t *process - process to add to the queue
   			process_t *queue - queue to add process to
 */
-void enqueueProcess(process_t * process, process_t** bqueue){
+void enqueueProcess(process_t * process, process_t** q){
 	process_t *iterator; /*Used to iterate over queue*/
   process->next = NULL; 
-  if(*bqueue==NULL){
+  if(*q==NULL){
     /*Queue is empty so we can just put this process 
     as the head of the queue*/
-    *bqueue = process;
+    *q = process;
     return;
   }
-  iterator = *bqueue;
+  iterator = *q;
   /*Iterator to last element in queue*/
   while(iterator->next!=NULL){
     iterator = iterator->next;
@@ -35,9 +35,9 @@ void enqueueProcess(process_t * process, process_t** bqueue){
   Arguments:
   			process_t *queue - the queue to remove the first element from
 */
-process_t* dequeueProcess(process_t **queue){
-  process_t *top = *queue;
-  *queue = (*queue)->next;
+process_t* dequeueProcess(process_t **q){
+  process_t *top = *q;
+  *q = (*q)->next;
   top->next = NULL;
   return top;
 }
