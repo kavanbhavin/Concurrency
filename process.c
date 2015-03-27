@@ -3,7 +3,7 @@
 /*Kavan Bhavin kab395@cornell.edu & Jun Wei Lam jl2576@cornell.edu*/
 
 /*The duration of time we let a single process run for*/
-#define PROCEESS_RUNTIME 300
+#define PROCEESS_RUNTIME 30000
 
 /* 
   Starts up the concurrent execution.

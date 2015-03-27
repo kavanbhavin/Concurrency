@@ -1,18 +1,12 @@
 #include "3140_concur.h"
 #include "uart_test_utility.h"
-/*Kavan Bhavin kab395*/
-/* Some of the code from sample test cases provided by ECE 3140 course staff
- * has been reused
- */
- 
-/*------------------------------------------------------------------------
- * Concurrent process test functions
- *----------------------------------------------------------------------*/
 
-lock_t w;
-lock_t r;
+lock_t l;
+cond_t cr;
+cond_t cw; 
 
 unsigned int nr= 0;
+unsigned int nw= 0;
 
 void delay (unsigned int n){
 	int i;
@@ -26,7 +20,7 @@ void delay (unsigned int n){
 void p1 (){
 	int i;
 	for (i=0; i < 10; i++) {
-		delay (8000);
+		delay (50000);
 		__disable_interrupt();
 		uart_puts("A reader is reading\n");
 		P1OUT ^= 0x01;
@@ -35,65 +29,80 @@ void p1 (){
 }
 
 void reader (void) {
-        /* enter */
-	l_lock(&r);
+	l_lock(&l);
+	if(nw!=0){
+		c_wait(&l,&cr);
+	}
 	nr++;
-        if (nr == 1) {
-	   l_lock (&w);
-        }
-	l_unlock (&r);
-	
+	if(c_waiting(&l,&cr)){
+		c_signal(&l,&cr);
+	}
+	else{
+		l_unlock(&l);
+	}
+	uart_puts("A reader has started reading\n");	
 	/*start reading*/
 	p1();
 	/*end reading*/
-
-        /* exit */
-	l_lock(&r);
+	uart_puts("A reader has finished reading\n");
+	l_lock(&l);
 	nr--;
-        if (nr == 0) {
-	   l_unlock (&w);
-        }
-	l_unlock (&r);
+  	if(c_waiting(&l,&cw) && nr == 0){
+  		c_signal(&l,&cw);
+  	}
+  	else if(c_waiting(&l,&cr)){
+  		c_signal(&l,&cr);
+  	}
+  	else{
+  		l_unlock(&l);	
+  	}
 }
 
 void writer (void) {
-	/* enter */
-	l_lock(&w);
-	uart_puts("A writer is writing\n");
+	l_lock(&l);
+	if(nw!=0 || nr!=0){
+		c_wait(&l,&cw);
+	}
+	nw++;
+	l_unlock(&l);
 	/*start writing*/
+	uart_puts("A writer has started writing\n");
 	P1OUT ^= 0x02;
 	delay(50000);
 	P1OUT ^= 0x02;
+	uart_puts("A writer has finished writing\n");
 	/*end writing*/
-
-        /* exit */
-	l_unlock(&w);
+	l_lock(&l);
+	nw--;
+  	if(c_waiting(&l,&cw) && nr == 0){
+  		c_signal(&l,&cw);
+  	}
+  	else if(c_waiting(&l,&cr)){
+  		c_signal(&l,&cr);
+  	}
+  	else{
+  		l_unlock(&l);	
+  	}
 }
-/*
- * In addition to blinking the LEDs in an interleaving, this test case also
- * sends information over the MSP430 UART. These can be observed to ensure
- * that no illegal interleavings take place.
- */
-  
-int main (void) {
+
+int main (void){
 	WDTCTL = WDTPW + WDTHOLD;
 	P1DIR = 0x03;
 	P1OUT = 0x00;
 
-	l_init (&w);
-	l_init (&r);
- 
+	l_init (&l);
+	c_init (&l,&cr);
+	c_init (&l,&cw);
+ 	
  	init_uart();	/* Setup UART (Note: Sets clock to 1 MHz) */
  
  	uart_clear_screen();
  	uart_puts("Creating concurrent processes...\n");
+ 	
 	if (process_create (writer,10) < 0) {
 	 	return -1;
 	}
 	if (process_create (reader,10) < 0) {
-	 	return -1;
-	}
-	if (process_create (writer,10) < 0) {
 	 	return -1;
 	}
 	if (process_create (reader,10) < 0) {

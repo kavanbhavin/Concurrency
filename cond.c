@@ -24,7 +24,7 @@ void c_signal (lock_t *l, cond_t *c){
 	__disable_interrupt();
 	/*Should not be called when queue is null (must check waiting)*/
 	first = dequeueProcess(&(c->waiting_queue));
-	enqueueProcess(first, &queue);
+	enqueueProcess(first, &ready_queue);
 	__enable_interrupt();
 	return;
 }

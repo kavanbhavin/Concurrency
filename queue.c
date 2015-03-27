@@ -8,7 +8,8 @@
   Pre-condition: process is not NULL
   Arguments:
   			process_t *process - process to add to the queue
-  			process_t *queue - queue to add process to
+  			process_t **queue - A pointer to the queue that we 
+  								wish to add the process to
 */
 void enqueueProcess(process_t * process, process_t** q){
 	process_t *iterator; /*Used to iterate over queue*/
@@ -33,7 +34,8 @@ void enqueueProcess(process_t * process, process_t** q){
   and set it's next element to NULL.
   Pre-condition: queue is not empty i.e. queue is not NULL
   Arguments:
-  			process_t *queue - the queue to remove the first element from
+  			process_t *queue - a pointer to the queue to 
+  								remove the first element from
 */
 process_t* dequeueProcess(process_t **q){
   process_t *top = *q;

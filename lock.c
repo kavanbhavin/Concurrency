@@ -42,6 +42,6 @@ void l_unlock(lock_t *l){
 	if(l->queue == NULL) return;
 	current = dequeueProcess(&(l->queue));
 	current->blocked = NOT_BLOCKED;
-	enqueueProcess(current, &queue);
+	enqueueProcess(current, &ready_queue);
 	__enable_interrupt();
 }
