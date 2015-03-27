@@ -34,12 +34,17 @@ void l_lock(lock_t *l){
 		process_blocked();
 	}
 }
-/*Do we need to worry about the case where this is already locked*/
+/* Method to unlock. The state is set to the UNLOCKED state and 
+ the first process on the waiting queue, if there is one, will be 
+ added to the ready queue. */
 void l_unlock(lock_t *l){
 	process_t *current; 
+	/* Disable interrupts to ensure atomicity */
 	__disable_interrupt();
 	l->locked = UNLOCKED;
+	/* If there are no processes blocked on this lock, we can return */
 	if(l->queue == NULL) return;
+	/* Otherwise we add the first waiting process to the ready queue */
 	current = dequeueProcess(&(l->queue));
 	current->blocked = NOT_BLOCKED;
 	enqueueProcess(current, &ready_queue);

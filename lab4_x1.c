@@ -125,7 +125,7 @@ int main (void){
 	process_start();
  
 
-    P1OUT= 0x02;
+    //P1OUT= 0x02;
 	while (1) ;
 	return 0;
 }
