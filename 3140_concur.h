@@ -119,7 +119,6 @@ void l_unlock(lock_t* l);
 /* ====== Condition Variables ====== */
 
 typedef struct cond_var_impl {
-	lock_t *lock;
 	process_t *waiting_queue;
 } cond_t;
 

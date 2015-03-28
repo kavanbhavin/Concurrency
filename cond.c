@@ -7,7 +7,6 @@
 
 /* Initializes struct variables for condition variable implementation*/
 void c_init (lock_t *l, cond_t *c){
-	c->lock = l;
 	c->waiting_queue = NULL;
 	return;
 }
