@@ -43,10 +43,13 @@ void l_unlock(lock_t *l){
 	__disable_interrupt();
 	l->locked = UNLOCKED;
 	/* If there are no processes blocked on this lock, we can return */
-	if(l->queue == NULL) return;
+	if(l->queue == NULL){
+		__enable_interrupt();
+	 	return;
+	}
 	/* Otherwise we add the first waiting process to the ready queue */
 	current = dequeueProcess(&(l->queue));
-	current->blocked = NOT_BLOCKED;
+	current->blocked = NOT_BLOCKED; /*Just to be safe*/
 	enqueueProcess(current, &ready_queue);
 	__enable_interrupt();
 }

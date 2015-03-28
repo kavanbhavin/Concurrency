@@ -8,7 +8,6 @@
 /* Initializes struct variables for condition variable implementation*/
 void c_init (lock_t *l, cond_t *c){
 	c->waiting_queue = NULL;
-	return;
 }
 
 /*I don't believe we have to use interrupts as the process has 
@@ -33,7 +32,6 @@ void c_signal (lock_t *l, cond_t *c){
 	/*waiting_queue cannot be NULL as waiting must be checked*/
 	first = dequeueProcess(&(c->waiting_queue));
 	enqueueProcess(first, &ready_queue);
-	return;
 }
 /* Method to check if there are any processes waiting for this
  condition. User must hold the lock when calling this function. */
