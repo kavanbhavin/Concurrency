@@ -105,29 +105,29 @@ unsigned int process_init (void (*f)(void), int n);
 void process_begin (void);
 
 /* ====== Locks ====== */
- /*Data structure for storing bookeeping information
+ /*Data structure for storing bookkeeping information
 about a lock.*/
  typedef struct lock_impl {
   int locked;
   process_t* queue;
 } lock_t;
 
+/* See lock.c*/
 void l_lock(lock_t* l);
 void l_init(lock_t* l);
 void l_unlock(lock_t* l);
 
 /* ====== Condition Variables ====== */
-
+/* Data structure for storing bookkeeping information about a
+condition variable */
 typedef struct cond_var_impl {
 	process_t *waiting_queue;
 } cond_t;
 
+/*see cond.c*/
 void c_init (lock_t *l, cond_t *c);
-
 void c_wait (lock_t *l, cond_t *c);
-
 void c_signal (lock_t *l, cond_t *c);
-
 int c_waiting (lock_t *l, cond_t *c);
 
 #endif /* __3140_CONCUR_H__ */
