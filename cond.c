@@ -41,12 +41,18 @@ void c_signal (lock_t *l, cond_t *c){
 	__disable_interrupt();
 	/*waiting_queue cannot be NULL as waiting must be checked*/
 	first = dequeueProcess(&(c->waiting_queue));
+	first->blocked=NOT_BLOCKED;
 	enqueueProcess(first, &ready_queue);
 	__enable_interrupt();
 }
 /* Method to check if there are any processes waiting for this
  condition. User must hold the lock when calling this function. */
 int c_waiting (lock_t *l, cond_t *c){
-	if(c->waiting_queue == NULL) return 0;
+	__disable_interrupt();
+	if(c->waiting_queue == NULL) {
+		__enable_interrupt();
+		return 0;
+	}	
+	__enable_interrupt();
 	return 1;
 }

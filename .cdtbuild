@@ -68,7 +68,7 @@
 <resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/lab4_x1.c" name="lab4_x1.c" rcbsApplicability="disable" resourcePath="/Concurrency/lab4_x1.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_x1.c">
 <tool id="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_x1.c" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501"/>
 </resourceConfiguration>
-<resourceConfiguration exclude="false" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/lab4_x0.c" name="lab4_x0.c" rcbsApplicability="disable" resourcePath="/Concurrency/lab4_x0.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_x0.c">
+<resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/lab4_x0.c" name="lab4_x0.c" rcbsApplicability="disable" resourcePath="/Concurrency/lab4_x0.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_x0.c">
 <tool id="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_x0.c" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501"/>
 </resourceConfiguration>
 <resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/test_uart_t1.c" name="test_uart_t1.c" rcbsApplicability="disable" resourcePath="/Concurrency/test_uart_t1.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/test_uart_t1.c">
@@ -77,7 +77,7 @@
 <resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/test_uart_x0.c" name="test_uart_x0.c" rcbsApplicability="disable" resourcePath="/Concurrency/test_uart_x0.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/test_uart_x0.c">
 <tool id="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/test_uart_x0.c" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501"/>
 </resourceConfiguration>
-<resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/test_producers.c" name="test_producers.c" rcbsApplicability="disable" resourcePath="/Concurrency/test_producers.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/test_producers.c">
+<resourceConfiguration exclude="false" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/test_producers.c" name="test_producers.c" rcbsApplicability="disable" resourcePath="/Concurrency/test_producers.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/test_producers.c">
 <tool id="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/test_producers.c" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501"/>
 </resourceConfiguration>
 </configuration>
