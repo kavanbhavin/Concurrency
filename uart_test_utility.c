@@ -31,3 +31,8 @@ void uart_clear_screen(void) {
  	uart_putc(0x1B);		/* Escape character */
  	uart_puts("[0;0H");		/* Move cursor to 0,0 */
 }
+/* Only works for single digit numbers */
+char itoa(int i){
+	char c = i + '0';
+	return c;
+}

@@ -65,7 +65,7 @@
 <resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/lab4_t1.c" name="lab4_t1.c" rcbsApplicability="disable" resourcePath="/Concurrency/lab4_t1.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_t1.c">
 <tool id="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_t1.c" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501"/>
 </resourceConfiguration>
-<resourceConfiguration exclude="false" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/lab4_x1.c" name="lab4_x1.c" rcbsApplicability="disable" resourcePath="/Concurrency/lab4_x1.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_x1.c">
+<resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/lab4_x1.c" name="lab4_x1.c" rcbsApplicability="disable" resourcePath="/Concurrency/lab4_x1.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_x1.c">
 <tool id="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_x1.c" name="MSP430 Compiler" superClass="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501"/>
 </resourceConfiguration>
 <resourceConfiguration exclude="true" id="com.ti.ccstudio.buildDefinitions.MSP430.Debug.1765231037./Concurrency/lab4_x0.c" name="lab4_x0.c" rcbsApplicability="disable" resourcePath="/Concurrency/lab4_x0.c" toolsToInvoke="com.ti.ccstudio.buildDefinitions.MSP430_3.2.exe.compilerDebug.1072345501./Concurrency/lab4_x0.c">

@@ -16,4 +16,6 @@ void uart_puts(char *str);
 /* http://braun-home.net/michael/info/misc/VT100_commands.htm */
 void uart_clear_screen(void);
 
+char itoa(int i);
+
 #endif /*UART_TEST_UTILITY_H_*/
