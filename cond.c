@@ -14,13 +14,22 @@ void c_init (lock_t *l, cond_t *c){
 already obtained a lock*/
 /* Method to wait for condition variable to be signalled*/
 void c_wait (lock_t *l, cond_t *c){
+	process_t *current;
+	__disable_interrupt();
 	/* Add process to variable's waiting queue*/
 	enqueueProcess(current_process, &(c->waiting_queue));
 	/* Set current process' status to BLOCKED so it doesn't get put
 	* on ready queue*/
 	current_process->blocked = BLOCKED;
-	l_unlock(l);
+	l->locked = 0;
+	/* If there are no processes blocked on this lock, we can return */
+	if(l->queue != NULL){
+		current = dequeueProcess(&(l->queue));
+		current->blocked = NOT_BLOCKED; /*Just to be safe*/
+		enqueueProcess(current, &ready_queue);
+	}
 	process_blocked();
+	__enable_interrupt();
 }
 
 /* Method to signal condition variable. Should only be called after
@@ -29,9 +38,11 @@ void c_wait (lock_t *l, cond_t *c){
  need to actually unlock it. */ 
 void c_signal (lock_t *l, cond_t *c){
 	process_t *first;
+	__disable_interrupt();
 	/*waiting_queue cannot be NULL as waiting must be checked*/
 	first = dequeueProcess(&(c->waiting_queue));
 	enqueueProcess(first, &ready_queue);
+	__enable_interrupt();
 }
 /* Method to check if there are any processes waiting for this
  condition. User must hold the lock when calling this function. */

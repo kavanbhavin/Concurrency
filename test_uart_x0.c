@@ -99,19 +99,19 @@ int main (void){
  	uart_clear_screen();
  	uart_puts("Creating concurrent processes...\n");
  	
-	if (process_create (writer,10) < 0) {
+	if (process_create (writer,15) < 0) {
 	 	return -1;
 	}
-	if (process_create (reader,10) < 0) {
+	if (process_create (reader,15) < 0) {
 	 	return -1;
 	}
-	if (process_create (reader,10) < 0) {
+	if (process_create (reader,15) < 0) {
 	 	return -1;
 	}
-	if (process_create (reader,10) < 0) {
+	if (process_create (reader,15) < 0) {
 	 	return -1;
 	}
-	if (process_create (writer,10) < 0) {
+	if (process_create (writer,15) < 0) {
 	 	return -1;
 	}
 	
